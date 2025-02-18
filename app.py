@@ -7,7 +7,10 @@ from openai import OpenAI
 from PIL import Image
 import openai,os,re
 from io import BytesIO
-client = OpenAI(api_key='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')
+from dotenv import load_dotenv
+load_dotenv()
+OPENAI_API_KEY=os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=OPENAI_API_KEY)
 def encode_image(image):
     # Resize and encode the image to base64
     img = Image.fromarray(image)
@@ -117,6 +120,6 @@ if uploaded_file is not None:
         st.write(f"**Name of Disease:** {result['name']}")
         st.write(f"**Possible Causes:** {result['causes']}")
         st.write(f"**Recommended Precautions:** {result['precautions']}")
-        st.write(f"**Suggested Medications:** {result['medications']}")
+        st.write(f"**Suggested Medications (Consult a doctor):** {result['medications']}")
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
